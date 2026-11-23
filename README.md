@@ -5,6 +5,26 @@
 到 [Releases](https://github.com/Ankler-wood/fgocapture/releases/latest) 下载 **FGOCapture.exe + readme.txt** 两个文件即可，
 不需要 Python、不需要编译。想自己打包或改代码，看下面第二节。
 
+### 国内网盘镜像（可选）
+
+GitHub 在大陆访问慢，可以把同样的文件放一份到网盘，链接填到下面这张表（没有就写"暂无"）：
+
+| 网盘 | 链接 | 提取码 | 文件 |
+|---|---|---|---|
+| 百度网盘 | [pan.baidu.com/s/1NfTWj6dFYyzXdhA9wF9-Ag](https://pan.baidu.com/s/1NfTWj6dFYyzXdhA9wF9-Ag?pwd=e7u7) | `e7u7` | 分享名「fgo一键抓包」：`FGOCapture.exe` + `readme.txt`（或同名 zip） |
+
+网盘传的是 **zip**（避免平台对 .exe 的拦截）。解压后先核对：
+
+- `FGOCapture-v1.0.3.zip` 的 SHA-256：`91c0e2de29c278a57f4f19951152b6ae2f21e477a563e72a49081babf2dab144`
+- 里面 `FGOCapture.exe` 的 SHA-256：`210a72b808ede54fecaf512dcbbbbd60789f2a5b6f48d096537fa7d2e03fd125`
+- 签名证书指纹：`2F68AC2B254BD0B848D6F654F9129E0AD5516FE4`
+
+核对方法：解压后跑 `FGOCapture.exe --verify`，或 PowerShell 里
+`Get-FileHash .\FGOCapture.exe -Algorithm SHA256`。
+
+> 网盘分享的内容上传者可以随时替换，所以**每个版本都用新文件名**（带版本号），不要覆盖旧文件；
+> 哈希对不上就别运行。
+
 一台 PC、三个模拟器（华为渠道服 / 简中安卓B服 / 日服），跑一条命令：
 
 - 自动认出每个模拟器装的是哪个服；
@@ -100,8 +120,12 @@ emulator-5558      DT1901A     9       已是   日服          com.aniplex.fate
   日服         游戏接口 8    其他 4    资源 0    尚未抓到登录
 ```
 
-`★导入文件已生成` 就说明这一服的数据已经拿到，可以退出去弄下一个。三台都拿到后回窗口按
-`Ctrl+C`，脚本会还原代理、卸载证书，并把导入文件汇总好。
+**每抓到一个服就会立刻复制进 `导入文件/`**（窗口里打印「★ xxx 已导出」），所以不用等三家
+都完成，也不用担心"有一个没抓完，另外两个白抓了"——先完成的文件已经在磁盘上了。
+三台都拿到后脚本会自动停；也可以随时按 `Ctrl+C`，它会还原代理、卸载证书。
+
+> 注意：直接点窗口右上角 X 关掉，文件同样不会丢，但代理和证书不会自动还原，
+> 下次运行会重新接管，或者手动跑一次 `--clean`。
 
 > 建议先把三个服的游戏都更新完再抓：游戏更新会走代理，速度慢很多。
 
@@ -109,7 +133,7 @@ emulator-5558      DT1901A     9       已是   日服          com.aniplex.fate
 
 ## 四、输出
 
-抓完**默认只保留导入文件**：每个服的 `game/`、`flows/`、`index.csv`、`auth.json` 等中间产物
+每抓完一个服，文件就立刻出现在 `导入文件/`（不等收尾）。抓完**默认只保留导入文件**：每个服的 `game/`、`flows/`、`index.csv`、`auth.json` 等中间产物
 会在收尾时自动删掉；没抓到导入文件的服则整份保留，方便重试排查。想全留就加 `--keep-all`。
 
 ```
