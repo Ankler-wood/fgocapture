@@ -1,0 +1,33 @@
+# 绝对不能上传：抓包结果（含账号数据）与根证书私钥
+out/
+conf/
+
+# Python 环境
+.venv/
+__pycache__/
+*.pyc
+
+# 构建产物（从源码重新生成）
+dist/
+build/
+dist2/
+build2/
+tools/stage/
+tools/stage2/
+tools/app.zip
+tools/app2.zip
+tools/BuildInfo.cs
+tools/tutorial.txt
+FGOCapture.exe
+FGOCapture.exe.sha256
+FGOCapture.signature.txt
+FGOCapture.cer
+使用说明.txt
+
+# 临时/系统
+tmp/
+.tmp/
+tmp2/
+*.log
+Thumbs.db
+.DS_Store
