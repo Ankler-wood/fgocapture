@@ -2,7 +2,7 @@
 
 ## 下载（普通用户）
 
-到 [Releases](../../releases/latest) 下载 **FGOCapture.exe + 使用说明.txt** 两个文件即可，
+到 [Releases](https://github.com/Ankler-wood/fgocapture/releases/latest) 下载 **FGOCapture.exe + readme.txt** 两个文件即可，
 不需要 Python、不需要编译。想自己打包或改代码，看下面第二节。
 
 一台 PC、三个模拟器（华为渠道服 / 简中安卓B服 / 日服），跑一条命令：
@@ -20,7 +20,7 @@
 
 ## 零、直接用 exe（推荐，零安装）
 
-**发给别人的只需要两个文件：`FGOCapture.exe` + `使用说明.txt`。**
+**发给别人的只需要两个文件：`FGOCapture.exe` + `readme.txt`。**
 
 exe 是自包含单文件（约 33 MB），**不需要 Python、不需要装依赖**；教程和校验信息也都在里面：
 
@@ -265,14 +265,14 @@ Chaldea 要的就是**登录响应体本身**（官方文档：简中服/繁中�
 
 ```
 FGOCapture.exe      程序（自带自检 + 自带教程）
-使用说明.txt         教程 + 本版本的 SHA-256 + 证书指纹
+readme.txt         教程 + 本版本的 SHA-256 + 证书指纹
 ```
 
 对方拿到后：
 
 - 想看怎么用：双击运行，或 `FGOCapture.exe --tutorial`；
 - 想确认没被改过：`FGOCapture.exe --verify` —— 会打印文件哈希、内置数据自校验、签名指纹，
-  **和 使用说明.txt 里写的值对一下**，任何一项不对就别运行。
+  **和 readme.txt 里写的值对一下**，任何一项不对就别运行。
 - 想让签名变成「受信任」：导入 `FGOCapture.cer`（可选，不导也能用，只是会显示未知发布者）。
 
 几点局限（别被「签名」两个字误导）：
