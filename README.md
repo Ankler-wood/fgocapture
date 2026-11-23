@@ -258,8 +258,8 @@ Chaldea 要的就是**登录响应体本身**（官方文档：简中服/繁中�
 | 层 | 作用 | 怎么用 |
 |---|---|---|
 | ① 内嵌载荷自校验 | 启动器把自己包里 `app.zip` 的 SHA-256 和构建时写死的常量比对，被换过 payload 就**拒绝启动** | 自动，无需操作 |
-| ② 外部 SHA-256 清单 | 文件只要有 1 比特改动，哈希就变 | `verify.bat`，或自己算 `Get-FileHash` |
-| ③ Authenticode 签名 | 改动后签名状态会变成 `HashMismatch` | `verify.bat` 第 3 项 |
+| ② 文件哈希对得上 readme.txt | 文件只要有 1 比特改动，SHA-256 就变 | `FGOCapture.exe --verify` 打印的「文件 SHA-256」，或自己算 `Get-FileHash` |
+| ③ Authenticode 签名 | 改动后签名状态会变成 `HashMismatch` | 右键 exe → 属性 → 数字签名；`--verify` 也会打印签名指纹 |
 
 **分享时只发两个文件**（不需要额外的 .sha256 / .cer / bat）：
 
@@ -273,16 +273,15 @@ readme.txt         教程 + 本版本的 SHA-256 + 证书指纹
 - 想看怎么用：双击运行，或 `FGOCapture.exe --tutorial`；
 - 想确认没被改过：`FGOCapture.exe --verify` —— 会打印文件哈希、内置数据自校验、签名指纹，
   **和 readme.txt 里写的值对一下**，任何一项不对就别运行。
-- 想让签名变成「受信任」：导入 `FGOCapture.cer`（可选，不导也能用，只是会显示未知发布者）。
+- Windows 仍会显示「未知发布者」——自签名证书做不到免警告，这不影响使用。
 
 几点局限（别被「签名」两个字误导）：
 
-- `.cer` 是**自签名**证书，Windows 仍会提示「未知发布者」。它的价值是：别人改了 exe，签名就
-  失效；对方拿 `FGOCapture.signature.txt` 里的指纹一对比就知道是不是你签的那份。
+- 证书是**自签名**的，Windows 仍会提示「未知发布者」。它的价值是：别人改了 exe，签名立刻
+  失效；对方拿 `--verify` 打出来的指纹和 readme.txt 里的写值一对，就知道是不是原版。
 - 想彻底杜绝「别人另做一个能用的带毒版本冒充你」，只能买**受信任 CA 的代码签名证书**（几百到
   几千元/年），或用平台分发（GitHub Release + 公开哈希）。
-- 指纹：`2F68AC2B254BD0B848D6F654F9129E0AD5516FE4`（重新签名会变，以
-  `FGOCapture.signature.txt` 为准）。
+- 指纹：`2F68AC2B254BD0B848D6F654F9129E0AD5516FE4`（重新签名会变，以 `FGOCapture.exe --verify` 打印的为准）。
 
 自己重新打包后要重新签名：右键 `tools\sign_exe.ps1` → 使用 PowerShell 运行（证书只在你本机
 用户证书库，5 年有效，可随时删）。
@@ -296,7 +295,7 @@ readme.txt         教程 + 本版本的 SHA-256 + 证书指纹
 127.0.0.1:808X        ← adb reverse tcp:808X tcp:808X，每台模拟器独立端口
    ▼
 PC 上 mitmdump -p 808X -s fgo_addon.py      ← 一台模拟器一个进程，互不干扰
-   │ 解 TLS → 判断是不是 FGO 接口 → 找含 userServantList 的响应
+   │ 解 TLS → 判断是不是 FGO 接口 → 找含 `userSvt` / `userItem` 的账号全量响应
    ▼
 out/<时间>/<服>/chaldea/toplogin_*.json + game/*.json + index.csv
 ```
