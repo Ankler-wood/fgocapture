@@ -11,12 +11,12 @@ GitHub 在大陆访问慢，可以把同样的文件放一份到网盘，链接�
 
 | 网盘 | 链接 | 提取码 | 文件 |
 |---|---|---|---|
-| 百度网盘 | [pan.baidu.com/s/1NfTWj6dFYyzXdhA9wF9-Ag](https://pan.baidu.com/s/1NfTWj6dFYyzXdhA9wF9-Ag?pwd=e7u7) | `e7u7` | 分享名「fgo一键抓包」：`FGOCapture.exe` + `readme.txt`（或同名 zip） |
+| 百度网盘 | [pan.baidu.com/s/1rEIz_a3GhG-50Ohspkxu2Q](https://pan.baidu.com/s/1rEIz_a3GhG-50Ohspkxu2Q?pwd=5y98) | `5y98` | 分享名「fgo一键抓包」：`FGOCapture-v1.0.4.zip`（内含 exe + readme.txt） |
 
 网盘传的是 **zip**（避免平台对 .exe 的拦截）。解压后先核对：
 
-- `FGOCapture-v1.0.3.zip` 的 SHA-256：`91c0e2de29c278a57f4f19951152b6ae2f21e477a563e72a49081babf2dab144`
-- 里面 `FGOCapture.exe` 的 SHA-256：`210a72b808ede54fecaf512dcbbbbd60789f2a5b6f48d096537fa7d2e03fd125`
+- `FGOCapture-v1.0.4.zip` 的 SHA-256：`e314e25c979a8f10cae46d27a90621fc43a3dd70fb41d6db3d9c7b11f3055ede`
+- 里面 `FGOCapture.exe` 的 SHA-256：`13811b73e170470b33c3c94e920dc09e39f12bab8dc0e8fd446909aa60fc35e9`
 - 签名证书指纹：`2F68AC2B254BD0B848D6F654F9129E0AD5516FE4`
 
 核对方法：解压后跑 `FGOCapture.exe --verify`，或 PowerShell 里
@@ -375,6 +375,13 @@ out/<时间>/<服>/chaldea/toplogin_*.json + game/*.json + index.csv
 run.bat --clean
 ```
 手工版：`adb shell settings put global http_proxy :0` + `adb shell umount /system/etc/security/cacerts`
+
+**5.5 双击后窗口一闪就没了**
+- 现在退出前会停住并显示退出码/原因（按任意键关闭）；
+- 想自己看细节：`FGOCapture.exe --pause --list`（`--pause` 让窗口停住），
+  完整输出也会写进 exe 旁边的 `logs\run-*.log`；
+- 最常见原因：**没开模拟器**（检测不到设备就直接结束）、被杀软拦截、
+  或解包目录没权限（`%LOCALAPPDATA%` 被限制时设 `FGO_CAPTURE_HOME` 换个位置）。
 
 **6. 端口被占用**
 `--port-base 9081`。
